@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: casecell_postgres
+    environment:
+      POSTGRES_USER: casecell
+      POSTGRES_PASSWORD: casecell_pw
+      POSTGRES_DB: casecell
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U casecell"]
+      interval: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    container_name: casecell_backend
+    environment:
+      DATABASE_URL: postgresql+asyncpg://casecell:casecell_pw@postgres:5432/casecell
+      USE_MOCK_ERP: "true"
+      MOCK_ERP_DELAY_SECONDS: "0.5"
+      LOG_LEVEL: "INFO"
+      LOG_FORMAT: "console"
+      CORS_ORIGINS: "http://localhost:5173"
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: casecell_frontend
+    environment:
+      VITE_API_URL: "http://localhost:8000"
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

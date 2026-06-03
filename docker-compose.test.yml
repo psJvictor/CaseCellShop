@@ -1,0 +1,16 @@
+services:
+  postgres_test:
+    image: postgres:16-alpine
+    container_name: casecell_postgres_test
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: casecell_test
+    ports:
+      - "5433:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test"]
+      interval: 2s
+      retries: 10

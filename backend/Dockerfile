@@ -1,0 +1,12 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY . .
+
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir ".[dev]"
+
+RUN chmod +x start.sh
+
+CMD ["./start.sh"]

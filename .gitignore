@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+.env
+*.env.local
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# Node / frontend
+node_modules/
+dist/
+.pnp
+.pnp.js
+
+# Vite
+frontend/dist/
+frontend/.vite/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.log
+
+# Alembic (never commit auto-generated versions by accident)
+# backend/alembic/versions/*.py  ← keep commented; we DO want to commit migrations
